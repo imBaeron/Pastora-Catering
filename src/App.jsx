@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import useHash from './hooks/useHash'
+import useTheme from './hooks/useTheme'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import Home from './pages/Home'
@@ -26,6 +27,7 @@ const ROUTES = {
 
 export default function App() {
   const h = useHash()
+  const [theme, toggleTheme] = useTheme()
   const [user, setUser] = useState(null)
   const [accounts, setAccounts] = useState(ACCOUNTS)
   const [bookings, setBookings] = useState(SEED)
@@ -43,7 +45,7 @@ export default function App() {
   const View = ROUTES[page].V
   return (
     <>
-      <Header user={user} page={page} onLogout={() => setUser(null)} />
+      <Header user={user} page={page} onLogout={() => setUser(null)} theme={theme} onToggleTheme={toggleTheme} />
       <View {...{ user, setUser, accounts, setAccounts, bookings, setBookings, date, setDate, last, setLast, go, redirect }} />
       <Footer />
     </>

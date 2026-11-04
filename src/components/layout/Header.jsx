@@ -5,7 +5,7 @@ const LINKS = {
   admin: [['home', 'Home'], ['dashboard', 'Dashboard'], ['bookings', 'Bookings'], ['admin-payments', 'Payments']]
 }
 
-export default function Header({ user, page, onLogout }) {
+export default function Header({ user, page, onLogout, theme, onToggleTheme }) {
   const on = k => page === k || (k === 'calendar' && ['book', 'confirm'].includes(page))
   return (
     <header>
@@ -13,6 +13,7 @@ export default function Header({ user, page, onLogout }) {
         {/* Replace the P badge with <img src="/images/logo/logo.png" /> */}
         <a className="brand" href="#home"><span className="logo">P</span>Pastora’s Catering</a>
         {LINKS[user ? user.role : 'guest'].map(([k, n]) => <a key={k} className={`l ${on(k) ? 'on' : ''}`} href={`#${k}`}>{n}</a>)}
+        <button className="theme" onClick={onToggleTheme} aria-label="Toggle night mode">{theme === 'dark' ? '☀ Light mode' : '☾ Night mode'}</button>
         {user && <><span className="chip">{user.name}</span><a className="l" href="#home" onClick={onLogout}>Log out</a></>}
       </div>
     </header>

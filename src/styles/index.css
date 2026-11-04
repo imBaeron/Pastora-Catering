@@ -1,5 +1,4 @@
 :root{--bg:#FAF3E8;--alt:#F2E2C7;--card:#fff;--acc:#D6A45D;--pri:#A66A2C;--ink:#2B190D;--on:#fff;--line:#e6d3b0;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a0f07;--alt:#2B190D;--card:#33200f;--acc:#A66A2C;--pri:#D6A45D;--ink:#FAF3E8;--on:#2B190D;--line:#4a3320;color-scheme:dark}}
 :root[data-theme="dark"]{--bg:#1a0f07;--alt:#2B190D;--card:#33200f;--acc:#A66A2C;--pri:#D6A45D;--ink:#FAF3E8;--on:#2B190D;--line:#4a3320;color-scheme:dark}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
@@ -68,3 +67,4 @@ footer{text-align:center;padding:24px;opacity:.7;font-size:13px}
 .chip-opt.dis{opacity:.45;cursor:not-allowed}
 .chip-opt input{position:absolute;opacity:0;width:0;height:0}
 .chip-opt:has(input:focus-visible){outline:2px solid var(--pri);outline-offset:2px}
+.theme{border:1px solid var(--line);background:var(--alt);color:var(--ink);border-radius:999px;padding:5px 12px;font:500 13px Poppins,sans-serif;cursor:pointer}
