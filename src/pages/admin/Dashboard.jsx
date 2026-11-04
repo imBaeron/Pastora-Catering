@@ -2,7 +2,8 @@ import { useState } from 'react'
 import KpiCards from '../../components/admin/KpiCards'
 import BookingTable from '../../components/admin/BookingTable'
 import BookingDialog from '../../components/admin/BookingDialog'
-import { P } from '../../data/packages'
+import { M } from '../../utils/format'
+import { tot } from '../../utils/pricing'
 
 export default function Dashboard({ bookings, setBookings }) {
   const [sel, setSel] = useState(null)
@@ -20,7 +21,7 @@ export default function Dashboard({ bookings, setBookings }) {
       <div className="card">
         <h3>Upcoming confirmed events</h3>
         {confirmed.length === 0 && <p>None yet.</p>}
-        {confirmed.map(b => <div className="row" key={b.id}><span><b>{b.d}</b> {b.t}, {b.c}</span><span>{P[b.pkg].n}, {b.g} guests</span></div>)}
+        {confirmed.map(b => <div className="row" key={b.id}><span><b>{b.d}</b> {b.t}, {b.c}</span><span>{b.g} guests, {M(tot(b))}</span></div>)}
       </div>
       <BookingDialog b={sel} onClose={() => setSel(null)} />
     </div>

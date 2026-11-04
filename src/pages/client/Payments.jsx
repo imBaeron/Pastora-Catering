@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Badge from '../../components/common/Badge'
-import { P } from '../../data/packages'
 import { Y, TODAY } from '../../data/constants'
 import { M } from '../../utils/format'
 import { tot, paid } from '../../utils/pricing'
@@ -11,7 +10,7 @@ function PayCard({ b, onPay }) {
   return (
     <div className="card" style={{ marginBottom: 12 }}>
       <div className="row"><b>{b.id}</b><Badge s={b.s} /></div>
-      {b.t} on {b.d}, {P[b.pkg].n}
+      {b.t} on {b.d}, {b.g} guests
       <div className="row"><span>Total {M(tot(b))}</span><span>Paid {M(paid(b))}</span><b>Balance {M(bal)}</b></div>
       {b.pay.map((x, i) => <div className="row lg" key={i}><span>{x.d}, {x.m}</span><span>{M(x.a)}</span></div>)}
       {bal > 0

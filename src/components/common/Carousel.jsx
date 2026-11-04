@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { SLIDES } from '../../data/packages'
+import { SLIDES } from '../../data/menu'
 import { ph } from '../../utils/placeholders'
 
 export default function Carousel() {

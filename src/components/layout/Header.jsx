@@ -1,7 +1,7 @@
 // The top nav changes with the account type: guest, client, or admin.
 const LINKS = {
-  guest: [['home', 'Home'], ['packages', 'Packages'], ['login', 'Login']],
-  client: [['home', 'Home'], ['packages', 'Packages'], ['calendar', 'Book'], ['my-bookings', 'My Bookings'], ['payments', 'Payments']],
+  guest: [['home', 'Home'], ['menu', 'Menu & Rates'], ['login', 'Login']],
+  client: [['home', 'Home'], ['menu', 'Menu & Rates'], ['calendar', 'Book'], ['my-bookings', 'My Bookings'], ['payments', 'Payments']],
   admin: [['home', 'Home'], ['dashboard', 'Dashboard'], ['bookings', 'Bookings'], ['admin-payments', 'Payments']]
 }
 

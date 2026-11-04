@@ -1,5 +1,5 @@
-import { P } from '../data/packages'
-import { A } from '../data/addOns'
+import { rate, catOf } from '../data/rates'
 
-export const tot = b => P[b.pkg].p * b.g + b.add.reduce((s, i) => s + A[i].p, 0)
+export const perHead = b => rate(catOf(b.t), b.g)
+export const tot = b => perHead(b) * b.g
 export const paid = b => b.pay.reduce((s, x) => s + x.a, 0)

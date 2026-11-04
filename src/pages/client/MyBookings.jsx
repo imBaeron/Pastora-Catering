@@ -1,5 +1,4 @@
 import Badge from '../../components/common/Badge'
-import { P } from '../../data/packages'
 import { M } from '../../utils/format'
 import { tot, paid } from '../../utils/pricing'
 
@@ -12,7 +11,7 @@ export default function MyBookings({ bookings, user }) {
       {mine.map(b => (
         <div className="card" style={{ marginBottom: 12 }} key={b.id}>
           <div className="row"><b>{b.id}</b><Badge s={b.s} /></div>
-          {b.t} on {b.d} for {b.g} guests, {P[b.pkg].n}
+          {b.t} on {b.d} for {b.g} guests
           <div className="row"><span>Total {M(tot(b))}</span><span>Paid {M(paid(b))}</span><span>Balance {M(tot(b) - paid(b))}</span></div>
         </div>
       ))}

@@ -3,7 +3,7 @@ import useHash from './hooks/useHash'
 import Header from './components/layout/Header'
 import Footer from './components/layout/Footer'
 import Home from './pages/Home'
-import Packages from './pages/Packages'
+import Menu from './pages/Menu'
 import Login from './pages/Login'
 import Calendar from './pages/client/Calendar'
 import Booking from './pages/client/Booking'
@@ -18,7 +18,7 @@ import { ACCOUNTS } from './data/accounts'
 
 // role: who may open the page (omit = anyone)
 const ROUTES = {
-  home: { V: Home }, packages: { V: Packages }, login: { V: Login },
+  home: { V: Home }, menu: { V: Menu }, login: { V: Login },
   calendar: { V: Calendar, role: 'client' }, book: { V: Booking, role: 'client' }, confirm: { V: Confirmation, role: 'client' },
   'my-bookings': { V: MyBookings, role: 'client' }, payments: { V: Payments, role: 'client' },
   dashboard: { V: Dashboard, role: 'admin' }, bookings: { V: AdminBookings, role: 'admin' }, 'admin-payments': { V: AdminPayments, role: 'admin' }
@@ -30,7 +30,6 @@ export default function App() {
   const [accounts, setAccounts] = useState(ACCOUNTS)
   const [bookings, setBookings] = useState(SEED)
   const [date, setDate] = useState(null)
-  const [pk, setPk] = useState(0)
   const [last, setLast] = useState(null)
   const go = p => { location.hash = p }
 
@@ -45,7 +44,7 @@ export default function App() {
   return (
     <>
       <Header user={user} page={page} onLogout={() => setUser(null)} />
-      <View {...{ user, setUser, accounts, setAccounts, bookings, setBookings, date, setDate, pk, setPk, last, setLast, go, redirect }} />
+      <View {...{ user, setUser, accounts, setAccounts, bookings, setBookings, date, setDate, last, setLast, go, redirect }} />
       <Footer />
     </>
   )

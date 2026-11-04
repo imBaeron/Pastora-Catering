@@ -60,3 +60,11 @@ footer{text-align:center;padding:24px;opacity:.7;font-size:13px}
 .chip{font-size:13px;opacity:.8}
 .err{color:#c0503a;font-size:13px}
 .pk ul{padding-left:18px;margin:8px 0}
+.card ul{padding-left:18px;margin:6px 0}
+.rt th,.rt td{white-space:normal}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.chip-opt{position:relative;display:flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:999px;padding:5px 12px;font-weight:400;cursor:pointer;margin:0;font-size:13px}
+.chip-opt.on{background:var(--pri);color:var(--on);border-color:var(--pri)}
+.chip-opt.dis{opacity:.45;cursor:not-allowed}
+.chip-opt input{position:absolute;opacity:0;width:0;height:0}
+.chip-opt:has(input:focus-visible){outline:2px solid var(--pri);outline-offset:2px}
