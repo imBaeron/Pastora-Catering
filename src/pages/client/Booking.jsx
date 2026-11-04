@@ -23,7 +23,7 @@ export default function Booking({ user, date, bookings, setBookings, setLast, se
   const submit = e => {
     e.preventDefault()
     if (!valid) return
-    const b = { id: 'PCS-' + (1001 + bookings.length), c: user.name, t: f.t, d: date, g: guests, menu: f.menu, out: f.out, s: 'Pending', v: f.v, r: f.r, pay: [] }
+    const b = { id: 'PCS-' + (1001 + bookings.length), c: user.name, t: f.t, d: date, g: guests, menu: f.menu, out: f.out, s: 'Pending', v: f.v, h: f.h, r: f.r, pay: [] }
     b.pay.push({ m: f.y, a: Math.round(tot(b) * 0.3), d: TODAY })
     setBookings([...bookings, b]); setLast(b); setDate(null); go('confirm')
   }
