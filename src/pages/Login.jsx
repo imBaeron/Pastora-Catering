@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { LOGIN_PIC } from '../data/images'
+import { pic } from '../utils/placeholders'
 
 // One login for everyone. The account's role decides which interface appears.
 export default function Login({ accounts, setAccounts, setUser, go, redirect }) {
@@ -21,7 +23,9 @@ export default function Login({ accounts, setAccounts, setUser, go, redirect }) 
   }
 
   return (
-    <div className="wrap" style={{ maxWidth: 420 }}>
+    <div className="wrap">
+      <div className="split" style={{ maxWidth: 880, margin: 'auto' }}>
+      <img className="login-img" src={pic(LOGIN_PIC.label, LOGIN_PIC.c, LOGIN_PIC.src)} alt={LOGIN_PIC.label} />
       <form className="card" onSubmit={submit}>
         <h2>{mode === 'login' ? 'Log in' : 'Create an account'}</h2>
         {redirect && <p className="lg">Log in to continue.</p>}
@@ -34,6 +38,7 @@ export default function Login({ accounts, setAccounts, setUser, go, redirect }) 
             {mode === 'login' ? 'Create an account' : 'I have an account'}</button></p>
         <p className="lg">Demo accounts: client@pastoras.com / client123 and admin@pastoras.com / admin123.</p>
       </form>
+      </div>
     </div>
   )
 }
