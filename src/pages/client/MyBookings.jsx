@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import Badge from '../../components/common/Badge'
 import MenuList from '../../components/common/MenuList'
+import AddOnList from '../../components/common/AddOnList'
 import { FOOD_EXTRAS, SERVICE } from '../../data/menu'
 import { M } from '../../utils/format'
-import { tot, paid, perHead } from '../../utils/pricing'
+import { tot, paid, perHead, addonTotal } from '../../utils/pricing'
 
 function BookingCard({ b }) {
   const [open, setOpen] = useState(false)
@@ -25,6 +26,7 @@ function BookingCard({ b }) {
 
           <h3 style={{ marginTop: 16 }}>Your menu</h3>
           <MenuList menu={b.menu} />
+          <AddOnList b={b} />
           <p className="lg">Also included: {[...FOOD_EXTRAS, ...SERVICE].join(', ').toLowerCase()}.</p>
 
           <h3 style={{ marginTop: 16 }}>Special requests</h3>
@@ -32,6 +34,7 @@ function BookingCard({ b }) {
 
           <h3>Pricing and payments</h3>
           <div className="row"><span>Rate per head</span><b>{M(perHead(b))}</b></div>
+          {addonTotal(b) > 0 && <div className="row"><span>Add-ons</span><b>{M(addonTotal(b))}</b></div>}
           <div className="row"><span>Total</span><b>{M(tot(b))}</b></div>
           {b.pay.map((x, i) => <div className="row lg" key={i}><span>{x.d}, {x.m}</span><span>{M(x.a)}</span></div>)}
           {b.pay.length === 0 && <p className="lg">No payments recorded yet.</p>}

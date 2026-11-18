@@ -5,7 +5,7 @@ import Tile from '../components/common/Tile'
 import { EVENT_TILES, FOOD_TILES, GALLERY, STORY_PIC } from '../data/images'
 import { pic } from '../utils/placeholders'
 
-export default function Home({ user, bookings }) {
+export default function Home({ user, bookings, setMenuTab }) {
   const admin = user?.role === 'admin'
   const pending = bookings.filter(b => b.s === 'Pending').length
   return (
@@ -18,7 +18,7 @@ export default function Home({ user, bookings }) {
             : 'Pastora’s Catering serves birthdays, fiestas, baptisms, blessings, and weddings in Calbayog City. Build your own menu, pick a date, and book online.'}</p>
           {admin
             ? <a className="btn" href="#dashboard">Open dashboard</a>
-            : <><a className="btn" href="#calendar">Book Now</a>{' '}<a className="btn alt" href="#menu">See menu and rates</a></>}
+            : <><a className="btn" href="#calendar">Book Now</a>{' '}<a className="btn alt" href="#menu" onClick={() => setMenuTab('rates')}>See menu and rates</a></>}
           {admin && pending > 0 && <p className="lg">{pending} booking request{pending > 1 ? 's' : ''} waiting for review.</p>}
         </div>
         <Carousel />
@@ -32,11 +32,12 @@ export default function Home({ user, bookings }) {
           <p>Rates are per head and depend on your event type and number of guests.</p>
           <RateTable /></section>
 
-        <section className="sec"><h2>What’s included</h2><Inclusions /></section>
+        <section className="sec"><h2>What’s included</h2><Inclusions />
+          <p>Want more? Add one more dish of any food type, extra waiters, or more rounds of softdrinks. <a href="#menu" onClick={() => setMenuTab('addons')}>See optional add-ons</a></p></section>
 
         <section className="sec"><h2>From our kitchen</h2>
           <div className="tiles">{FOOD_TILES.map(t => <Tile key={t.label} {...t} />)}</div>
-          <p><a className="btn alt" href="#menu">See the full menu</a></p></section>
+          <p><a className="btn alt" href="#menu" onClick={() => setMenuTab('menu')}>See the full menu</a></p></section>
 
         <section className="sec split">
           <img src={pic(STORY_PIC.label, STORY_PIC.c, STORY_PIC.src)} alt={STORY_PIC.label} loading="lazy" />

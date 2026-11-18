@@ -33,6 +33,7 @@ export default function App() {
   const [bookings, setBookings] = useState(SEED)
   const [date, setDate] = useState(null)
   const [last, setLast] = useState(null)
+  const [menuTab, setMenuTab] = useState('rates')
   const go = p => { location.hash = p }
 
   let page = ROUTES[h] ? h : 'home', redirect = null
@@ -46,7 +47,7 @@ export default function App() {
   return (
     <>
       <Header user={user} page={page} onLogout={() => setUser(null)} theme={theme} onToggleTheme={toggleTheme} />
-      <View {...{ user, setUser, accounts, setAccounts, bookings, setBookings, date, setDate, last, setLast, go, redirect }} />
+      <View {...{ user, setUser, accounts, setAccounts, bookings, setBookings, date, setDate, last, setLast, menuTab, setMenuTab, go, redirect }} />
       <Footer />
     </>
   )

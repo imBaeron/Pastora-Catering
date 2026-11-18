@@ -81,3 +81,38 @@ footer{text-align:center;padding:24px;opacity:.7;font-size:13px}
 .split>img{width:100%;border-radius:16px;display:block;aspect-ratio:4/3;object-fit:cover}
 .banner{width:100%;height:220px;object-fit:cover;border-radius:18px;display:block}
 .card.mc{padding:0;overflow:hidden}.mc img{width:100%;height:130px;object-fit:cover;display:block}.mc>div{padding:14px 18px}
+.step{display:flex;align-items:center;gap:10px}.step b{min-width:18px;text-align:center}
+/* Menu page: tabs, panels, and easier-to-scan lists */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px}
+.tab,.cat{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 16px;border-radius:999px;font:500 14px Poppins,sans-serif;cursor:pointer;white-space:nowrap}
+.tab.on,.cat.on{background:var(--pri);color:var(--on);border-color:var(--pri)}
+.tab:focus-visible,.cat:focus-visible{outline:2px solid var(--pri);outline-offset:2px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px}
+.panel>h3{font-size:1.4rem}
+.panel .card{background:var(--bg)}
+.cats{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.pill{background:var(--alt);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500}
+.dishes{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));margin-top:12px}
+.dish{background:var(--alt);border-radius:12px;padding:12px 14px;font-weight:500}
+.rate{padding:11px 0;margin:0;border-bottom:1px solid var(--line)}.rate:last-child{border-bottom:0}
+.rate b{font:700 1.15rem 'Playfair Display',Georgia,serif;color:var(--pri)}
+.rate small{font:400 12px Poppins,sans-serif;color:var(--ink);opacity:.7}
+.card ul.checks{list-style:none;padding:0;margin:6px 0}
+.checks li{position:relative;padding:8px 0 8px 28px;border-bottom:1px dashed var(--line)}
+.checks li:last-child{border-bottom:0}
+.checks li::before{content:"✓";position:absolute;left:4px;color:var(--pri);font-weight:700}
+/* Booking page: steps and tappable dish cards */
+.num{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--alt);color:var(--ink);font-size:12px;margin-right:4px}
+.tab.done .num{background:var(--pri);color:var(--on)}
+.tab.on .num{background:var(--on);color:var(--pri)}
+.count{font-size:12px;opacity:.85;margin-left:4px}
+.panel h4{font:600 1rem Poppins,sans-serif;margin:18px 0 6px}
+.dish.pickable{position:relative;display:flex;align-items:center;gap:10px;margin:0;cursor:pointer;border:2px solid transparent;font-size:14px}
+.dish.pickable.on{background:var(--pri);color:var(--on)}
+.dish.pickable.dis{opacity:.45;cursor:not-allowed}
+.dish input{position:absolute;opacity:0;width:0;height:0}
+.dish:has(input:focus-visible){outline:2px solid var(--pri);outline-offset:2px}
+.tick{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:inline-grid;place-items:center;font-size:12px}
+.dish.on .tick{border-color:var(--on)}
+.dish small{display:block;font-weight:400;opacity:.8}

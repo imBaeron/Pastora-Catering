@@ -1,5 +1,6 @@
 import Badge from '../common/Badge'
 import MenuList from '../common/MenuList'
+import AddOnList from '../common/AddOnList'
 import { M } from '../../utils/format'
 import { tot, paid, perHead } from '../../utils/pricing'
 
@@ -11,6 +12,7 @@ export default function BookingDialog({ b, onClose }) {
       <p>{b.c}, {b.t}<br />{b.d} for {b.g} guests<br />Venue: {b.v || '-'}{b.out && ' (outside Calbayog City proper, transportation fee applies)'}<br />
         Rate {M(perHead(b))} per head, total {M(tot(b))}, paid {M(paid(b))}<br />Requests: {b.r || 'None'}</p>
       <MenuList menu={b.menu} />
+      <AddOnList b={b} />
       <p><button className="btn" onClick={onClose}>Close</button></p>
     </dialog>
   )

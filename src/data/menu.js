@@ -19,3 +19,5 @@ export const FOOD_EXTRAS = ['Rice', '1 round of softdrinks', 'Purified water ser
 export const SERVICE = ['Buffet skirting', 'Chair covers', 'Table covers', 'Chair ribbons', 'Table centerpiece', 'Plates, utensils, and goblets', 'Uniformed waiters']
 export const SLIDES = [['Lechon belly', '#F2E2C7'], ['Bilao pancit', '#D6A45D'], ['Dessert platter', '#c98f4a']]
 export const DEFAULT_MENU = { beef: ['Caldereta'], porkSea: ['Pork Menudo'], chicken: ['Fried Chicken with Gravy Sauce'], pasta: ['Spaghetti'], kakanin: ['Puto', 'Latik'], dessert: ['Buko Pandan'] }
+export const CAT_ICON = { Beef: '🥩', Pork: '🍖', Chicken: '🍗', Seafood: '🦐', Noodles: '🍝', Kakanin: '🍡', Dessert: '🍨' }
+export const SLOT_ICON = { beef: '🥩', porkSea: '🍖', chicken: '🍗', pasta: '🍝', kakanin: '🍡', dessert: '🍨' }
