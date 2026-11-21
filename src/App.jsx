@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { api, hasToken, setToken } from './api'
 import useHash from './hooks/useHash'
 import useTheme from './hooks/useTheme'
 import Header from './components/layout/Header'
@@ -14,8 +15,6 @@ import Payments from './pages/client/Payments'
 import Dashboard from './pages/admin/Dashboard'
 import AdminBookings from './pages/admin/Bookings'
 import AdminPayments from './pages/admin/Payments'
-import { SEED } from './data/bookings'
-import { ACCOUNTS } from './data/accounts'
 
 // role: who may open the page (omit = anyone)
 const ROUTES = {
@@ -29,12 +28,24 @@ export default function App() {
   const h = useHash()
   const [theme, toggleTheme] = useTheme()
   const [user, setUser] = useState(null)
-  const [accounts, setAccounts] = useState(ACCOUNTS)
-  const [bookings, setBookings] = useState(SEED)
+  const [ready, setReady] = useState(!hasToken())      // false while we restore a saved login
+  const [bookings, setBookings] = useState([])
   const [date, setDate] = useState(null)
   const [last, setLast] = useState(null)
   const [menuTab, setMenuTab] = useState('rates')
   const go = p => { location.hash = p }
+
+  // Restore the login after a page refresh.
+  useEffect(() => {
+    if (!hasToken()) return
+    api.me().then(setUser).catch(() => setToken('')).finally(() => setReady(true))
+  }, [])
+  // Load this person's bookings (everyone's, for the admin) whenever someone logs in.
+  useEffect(() => {
+    if (user) api.bookings().then(setBookings).catch(() => setBookings([]))
+  }, [user])
+  const logout = () => { setToken(''); setBookings([]); setUser(null) }
+  if (!ready) return <p style={{ padding: 24 }}>Loading…</p>
 
   let page = ROUTES[h] ? h : 'home', redirect = null
   const need = ROUTES[page].role
@@ -46,8 +57,8 @@ export default function App() {
   const View = ROUTES[page].V
   return (
     <>
-      <Header user={user} page={page} onLogout={() => setUser(null)} theme={theme} onToggleTheme={toggleTheme} />
-      <View {...{ user, setUser, accounts, setAccounts, bookings, setBookings, date, setDate, last, setLast, menuTab, setMenuTab, go, redirect }} />
+      <Header user={user} page={page} onLogout={logout} theme={theme} onToggleTheme={toggleTheme} />
+      <View {...{ user, setUser, bookings, setBookings, date, setDate, last, setLast, menuTab, setMenuTab, go, redirect }} />
       <Footer />
     </>
   )

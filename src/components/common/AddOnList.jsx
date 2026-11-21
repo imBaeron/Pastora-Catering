@@ -1,12 +1,10 @@
-import { ADDON_DISHES, ADDON_SERVICES } from '../../data/addOns'
 import { M } from '../../utils/format'
 
-// Lists the add-ons a booking includes, with the cost of each.
+// Lists the add-ons a booking includes, with the cost of each (prices as frozen on the booking).
 export default function AddOnList({ b }) {
-  const { dishes = {}, services = {} } = b.addons || {}
-  const rows = [
-    ...Object.entries(dishes).map(([c, item]) => { const a = ADDON_DISHES.find(x => x.k === c); return [`Extra ${a.label}: ${item}`, a.p * b.g] }),
-    ...Object.entries(services).map(([k, q]) => { const a = ADDON_SERVICES.find(x => x.k === k); return [`${a.n}${q > 1 ? ` × ${q}` : ''}`, a.p * q * (a.basis === 'head' ? b.g : 1)] })]
+  const rows = (b.addonLines || []).map(x => [
+    x.type === 'Extra dish' ? `Extra ${x.name.replace(/^One more | dish$/g, '')}: ${x.item}` : `${x.name}${x.qty > 1 ? ` × ${x.qty}` : ''}`,
+    x.cost])
   if (!rows.length) return null
   return (
     <>

@@ -1,15 +1,17 @@
 import { useState } from 'react'
-import { EVENT_TYPES, catOf, MIN_GUESTS, rate } from '../../data/rates'
-import { MENU, SLOTS, SLOT_ICON, CAT_ICON } from '../../data/menu'
-import { ADDON_DISHES, ADDON_SERVICES } from '../../data/addOns'
-import { Y, TODAY } from '../../data/constants'
+import { CAT_ICON } from '../../data/menu'
+import { useCatalog } from '../../CatalogContext'
+import { api } from '../../api'
 import { M } from '../../utils/format'
-import { tot, addonTotal } from '../../utils/pricing'
 import StepTabs from '../../components/booking/StepTabs'
 import DishPicker from '../../components/booking/DishPicker'
 import Summary from '../../components/booking/Summary'
 
-export default function Booking({ user, date, bookings, setBookings, setLast, setDate, go }) {
+export default function Booking({ date, bookings, setBookings, setLast, setDate, go }) {
+  const { eventTypes: EVENT_TYPES, catOf, minGuests: MIN_GUESTS, rate, slots: SLOTS, menu: MENU,
+    addonDishes: ADDON_DISHES, addonServices: ADDON_SERVICES, paymentMethods: Y } = useCatalog()
+  const SLOT_ICON = Object.fromEntries(SLOTS.map(s => [s.k, CAT_ICON[s.from[0]]]))   // icon of the slot's first category
+  const [err, setErr] = useState('')
   const [f, setF] = useState({ t: 'Birthday', v: '', h: '11:00', g: 50, out: false, r: '', y: Y[0], menu: {}, ad: { dishes: {}, services: {} } })
   const [step, setStep] = useState(1)
   const [slotKey, setSlotKey] = useState(SLOTS[0].k)
@@ -18,7 +20,9 @@ export default function Booking({ user, date, bookings, setBookings, setLast, se
 
   const cat = catOf(f.t), min = MIN_GUESTS[cat], guests = +f.g || 0
   const perHead = rate(cat, guests), base = perHead * guests
-  const extras = addonTotal({ g: guests, addons: f.ad }), total = base + extras
+  const extras = ADDON_DISHES.filter(a => f.ad.dishes[a.k]).reduce((s, a) => s + a.p * guests, 0)
+    + Object.entries(f.ad.services).reduce((s, [k, q]) => { const a = ADDON_SERVICES.find(x => x.k === k); return s + a.p * q * (a.basis === 'head' ? guests : 1) }, 0)
+  const total = base + extras
   const chosen = Object.values(f.menu).flat()
   const picked = SLOTS.reduce((s, x) => s + (f.menu[x.k] || []).length, 0), needed = SLOTS.reduce((s, x) => s + x.n, 0)
   const addCount = Object.keys(f.ad.dishes).length + Object.keys(f.ad.services).length
@@ -47,11 +51,13 @@ export default function Booking({ user, date, bookings, setBookings, setLast, se
     set('ad', { ...f.ad, services: sv })
   }
 
+  // The server re-checks everything, recalculates the price and saves the booking in PostgreSQL.
   const submit = () => {
     if (!valid) return
-    const b = { id: 'PCS-' + (1001 + bookings.length), c: user.name, t: f.t, d: date, g: guests, menu: f.menu, addons: f.ad, out: f.out, s: 'Pending', v: f.v, h: f.h, r: f.r, pay: [] }
-    b.pay.push({ m: f.y, a: Math.round(tot(b) * 0.3), d: TODAY })
-    setBookings([...bookings, b]); setLast(b); setDate(null); go('confirm')
+    setErr('')
+    api.createBooking({ eventType: f.t, date, startTime: f.h, venue: f.v, guests, outside: f.out, requests: f.r, menu: f.menu, addons: f.ad, paymentMethod: f.y })
+      .then(b => { setBookings([...bookings, b]); setLast(b); setDate(null); go('confirm') })
+      .catch(e => setErr(e.message))
   }
   const onSubmit = e => { e.preventDefault(); if (step < 4) setStep(step + 1); else submit() }
 
@@ -152,10 +158,11 @@ export default function Booking({ user, date, bookings, setBookings, setLast, se
 
           <div className="row" style={{ marginTop: 24 }}>
             {step > 1 ? <button type="button" className="btn alt" onClick={() => setStep(step - 1)}>Back</button> : <span />}
-            {step < 4 ? <button type="button" className="btn" onClick={() => setStep(step + 1)}>Next</button>
-              : <button className="btn" disabled={!valid}>Submit booking</button>}
+            {step < 4 ? <button key="next" type="button" className="btn" onClick={() => setStep(step + 1)}>Next</button>
+              : <button key="submit" type="submit" className="btn" disabled={!valid}>Submit booking</button>}
           </div>
           {step === 4 && !valid && <p className="err">Complete the items marked ! above to submit.</p>}
+          {err && <p className="err">{err}</p>}
         </div>
 
         <Summary perHead={perHead} guests={guests} base={base} extras={extras} total={total} picked={picked} needed={needed} out={f.out} />

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { api } from '../../api'
 import KpiCards from '../../components/admin/KpiCards'
 import BookingTable from '../../components/admin/BookingTable'
 import BookingDialog from '../../components/admin/BookingDialog'
@@ -7,7 +8,7 @@ import { tot } from '../../utils/pricing'
 
 export default function Dashboard({ bookings, setBookings }) {
   const [sel, setSel] = useState(null)
-  const act = (id, s) => setBookings(bookings.map(b => (b.id === id ? { ...b, s } : b)))
+  const act = (id, s) => api.setStatus(id, s).then(u => setBookings(bookings.map(b => (b.id === id ? u : b)))).catch(e => alert(e.message))
   const pending = bookings.filter(b => b.s === 'Pending')
   const confirmed = bookings.filter(b => b.s === 'Confirmed').sort((a, b) => (a.d > b.d ? 1 : -1))
   return (

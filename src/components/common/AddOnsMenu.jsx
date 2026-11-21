@@ -1,7 +1,8 @@
-import { ADDON_DISHES, ADDON_SERVICES } from '../../data/addOns'
+import { useCatalog } from '../../CatalogContext'
 import { M } from '../../utils/format'
 
 export default function AddOnsMenu() {
+  const { addonDishes: ADDON_DISHES, addonServices: ADDON_SERVICES } = useCatalog()
   return (
     <div className="grid">
       <div className="card"><h3>🍽️ Extra dishes</h3>

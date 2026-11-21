@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { api } from '../../api'
 import BookingTable from '../../components/admin/BookingTable'
 import BookingDialog from '../../components/admin/BookingDialog'
 
 export default function Bookings({ bookings, setBookings }) {
   const [q, setQ] = useState(''), [f, setF] = useState('All'), [sel, setSel] = useState(null)
-  const act = (id, s) => setBookings(bookings.map(b => (b.id === id ? { ...b, s } : b)))
+  const act = (id, s) => api.setStatus(id, s).then(u => setBookings(bookings.map(b => (b.id === id ? u : b)))).catch(e => alert(e.message))
   const rows = bookings.filter(b => (f === 'All' || b.s === f) && (b.c + b.id + b.t).toLowerCase().includes(q.toLowerCase()))
   return (
     <div className="wrap">

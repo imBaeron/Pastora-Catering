@@ -1,10 +1,15 @@
-import { useState } from 'react'
-import { BLK, TODAY } from '../../data/constants'
+import { useState, useEffect } from 'react'
+import { api } from '../../api'
+import { useCatalog } from '../../CatalogContext'
 
-export default function Calendar({ date, setDate, go, bookings }) {
-  const [[y, m], setCm] = useState([2026, 10])
+export default function Calendar({ date, setDate, go }) {
+  const { today: TODAY } = useCatalog()
+  const t0 = new Date(TODAY + 'T00:00')
+  const [[y, m], setCm] = useState([t0.getFullYear(), t0.getMonth()])
+  const [taken, setTaken] = useState([])
+  useEffect(() => { api.calendar().then(c => setTaken([...c.blocked, ...c.confirmed])).catch(() => {}) }, [])
   const first = new Date(y, m, 1).getDay(), n = new Date(y, m + 1, 0).getDate()
-  const off = new Set([...BLK, ...bookings.filter(b => b.s === 'Confirmed').map(b => b.d)])
+  const off = new Set(taken)
   const mv = d => { const t = new Date(y, m + d); setCm([t.getFullYear(), t.getMonth()]) }
   const days = []
   for (let i = 1; i <= n; i++) {

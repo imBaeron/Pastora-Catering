@@ -1,6 +1,7 @@
-import { RATE_TABLE } from '../../data/rates'
+import { useCatalog } from '../../CatalogContext'
 
 export default function RateTable() {
+  const { RATE_TABLE } = useCatalog()
   return (
     <div className="card tw rt"><table>
       <thead><tr><th>Guest count</th><th>Birthdays, fiestas, baptisms, dedications, house/office blessings, and others</th><th>Weddings and special events</th></tr></thead>

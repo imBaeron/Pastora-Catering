@@ -1,25 +1,22 @@
 import { useState } from 'react'
 import { LOGIN_PIC } from '../data/images'
 import { pic } from '../utils/placeholders'
+import { api, setToken } from '../api'
 
 // One login for everyone. The account's role decides which interface appears.
-export default function Login({ accounts, setAccounts, setUser, go, redirect }) {
+export default function Login({ setUser, go, redirect }) {
   const [mode, setMode] = useState('login')
   const [f, setF] = useState({ name: '', email: '', password: '' })
   const [err, setErr] = useState('')
   const set = (k, v) => setF({ ...f, [k]: v })
-  const signIn = a => { setUser(a); go(redirect || 'home') }
+  const signIn = r => { setToken(r.token); setUser(r.user); go(redirect || 'home') }
 
-  const submit = e => {
+  const submit = async e => {
     e.preventDefault()
     const email = f.email.trim().toLowerCase()
-    if (mode === 'login') {
-      const a = accounts.find(x => x.email === email && x.password === f.password)
-      return a ? signIn(a) : setErr('Incorrect email or password.')
-    }
-    if (accounts.some(x => x.email === email)) return setErr('An account with this email already exists.')
-    const a = { name: f.name.trim(), email, password: f.password, role: 'client' }
-    setAccounts([...accounts, a]); signIn(a)
+    try {
+      signIn(mode === 'login' ? await api.login(email, f.password) : await api.register(f.name.trim(), email, f.password))
+    } catch (x) { setErr(x.message) }
   }
 
   return (

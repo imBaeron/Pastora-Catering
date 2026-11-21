@@ -2,13 +2,15 @@ import { useState } from 'react'
 import RateCards from '../components/common/RateCards'
 import Inclusions from '../components/common/Inclusions'
 import AddOnsMenu from '../components/common/AddOnsMenu'
-import { MENU, SLOTS, CAT_ICON } from '../data/menu'
+import { CAT_ICON } from '../data/menu'
+import { useCatalog } from '../CatalogContext'
 import { MENU_BANNER, MENU_PICS } from '../data/images'
 import { pic } from '../utils/placeholders'
 
 const TABS = [['rates', '💰', 'Rates'], ['included', '✅', 'What’s included'], ['menu', '🍽️', 'Menu'], ['addons', '➕', 'Add-ons']]
 
 export default function Menu({ user, menuTab, setMenuTab }) {
+  const { menu: MENU, slots: SLOTS } = useCatalog()
   const [cat, setCat] = useState('Beef')
   const slot = SLOTS.find(s => s.from.includes(cat))
   const pics = MENU_PICS[cat]

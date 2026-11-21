@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import Badge from '../../components/common/Badge'
-import { Y, TODAY } from '../../data/constants'
+import { api } from '../../api'
+import { useCatalog } from '../../CatalogContext'
 import { M } from '../../utils/format'
 import { tot, paid } from '../../utils/pricing'
 
 function PayCard({ b, onPay }) {
+  const { paymentMethods: Y } = useCatalog()
   const [m, setM] = useState(Y[0])
   const bal = tot(b) - paid(b)
   return (
@@ -23,7 +25,7 @@ function PayCard({ b, onPay }) {
 
 export default function Payments({ bookings, setBookings, user }) {
   const mine = bookings.filter(b => b.c === user.name && b.s !== 'Cancelled')
-  const pay = (id, m) => setBookings(bookings.map(b => (b.id === id ? { ...b, pay: [...b.pay, { m, a: tot(b) - paid(b), d: TODAY }] } : b)))
+  const pay = (id, m) => api.pay(id, m).then(u => setBookings(bookings.map(b => (b.id === id ? u : b)))).catch(e => alert(e.message))
   return (
     <div className="wrap" style={{ maxWidth: 720 }}>
       <h2>Payments</h2>

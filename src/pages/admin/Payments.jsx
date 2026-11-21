@@ -1,8 +1,9 @@
-import { Y } from '../../data/constants'
+import { useCatalog } from '../../CatalogContext'
 import { M } from '../../utils/format'
 import { tot, paid } from '../../utils/pricing'
 
 export default function Payments({ bookings }) {
+  const { paymentMethods: Y } = useCatalog()
   const all = bookings.flatMap(b => b.pay.map(x => ({ ...x, b })))
   const by = Y.map(m => [m, all.filter(x => x.m === m).reduce((s, x) => s + x.a, 0)])
   const mx = Math.max(...by.map(x => x[1]), 1)

@@ -1,4 +1,4 @@
-import { RATE_TABLE } from '../../data/rates'
+import { useCatalog } from '../../CatalogContext'
 
 // Two cards instead of one wide table: easier to scan, especially on phones.
 const COLS = [
@@ -6,6 +6,7 @@ const COLS = [
   { title: 'Weddings and special events', who: 'Weddings and other special events', i: 2 }]
 
 export default function RateCards() {
+  const { RATE_TABLE } = useCatalog()
   return (
     <div className="grid">
       {COLS.map(c => (
